@@ -47,7 +47,6 @@ function roll() {
     return;
   } else {
     previousDices[activePlayer] = dice;
-    console.log(previousDices);
   }
   let diceDOM = document.querySelector(".dice"); // 2. display the result
   diceDOM.style.display = "block"; // event loop miatt nem jelenik meg a dice5png
