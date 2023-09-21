@@ -36,6 +36,7 @@ function init() {
   document.getElementById("name-1").textContent = "Player 2";
   document.querySelector(".btn-roll").style.display = "block";
   document.querySelector(".btn-hold").style.display = "block";
+  document.querySelector(".input").disabled = false;
 }
 init();
 
