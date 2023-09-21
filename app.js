@@ -36,23 +36,15 @@ init();
 document.querySelector(".btn-new").addEventListener("click", init);
 
 function roll() {
-  //1. random number
-  const dice = Math.floor(Math.random() * 6) + 1;
-
+  const dice = Math.floor(Math.random() * 6) + 1; //1. random number
   console.log("dobtunk a kockával ");
-  // 2. display the result
-  let diceDOM = document.querySelector(".dice");
-  diceDOM.style.display = "block"; // event loop miatt nem jelenik meg a dice5png
-  //diceDOM.src = "dice-" + dice + ".png";
-  diceDOM.src = `dice-${dice}.png`;
-
-  // 3.Update the round score if the rolled number was NOT a 1
-  if (dice !== 1) {
-    //Add score
-    roundScore += dice;
+  let diceDOM = document.querySelector(".dice"); // 2. display the result
+  diceDOM.style.display = "block"; // event loop miatt nem jelenik meg a dice5png 
+  diceDOM.src = `dice-${dice}.png`; //diceDOM.src = "dice-" + dice + ".png";
+  if (dice !== 1) {  // 3.Update the round score if the rolled number was NOT a 1
+    roundScore += dice; //Add score
     document.querySelector("#current-" + activePlayer).textContent = roundScore;
-  } else {
-    //Next player
+  } else { //Next player
     nextPlayer();
   }
 }
@@ -60,13 +52,9 @@ function roll() {
 document.querySelector(".btn-roll").addEventListener("click", roll);
 
 function hold() {
-  // Add Current score to GLOBAL score
-  scores[activePlayer] += roundScore;
-  //Update the UI
-  document.querySelector("#score-" + activePlayer).textContent =
-    scores[activePlayer];
-  // Check if player won the game
-  if (scores[activePlayer] >= 20) {
+  scores[activePlayer] += roundScore; // Add Current score to GLOBAL score
+  document.querySelector("#score-" + activePlayer).textContent =  scores[activePlayer]; //Update the UI
+  if (scores[activePlayer] >= 20) { // Check if player won the game
     document.querySelector("#name-" + activePlayer).textContent = "Winner!";
     document.querySelector(".dice").style.display = "none";
     document.querySelector(".btn-roll").style.display = "none";
