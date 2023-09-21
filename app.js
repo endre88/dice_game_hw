@@ -9,11 +9,15 @@ GAME RULES:
 
 */
 
-let scores, roundScore, activePlayer;
+let scores, roundScore, activePlayer, maxscore;
 let previousDices = [0, 0];
 
 function init() {
   scores = [0, 0];
+  maxscore = document.querySelector(".input").value;
+  if (maxscore == false) {
+    maxscore = 100;
+  }
   previousDices = [0, 0]; // az előző dobás lenullázása new game-kor
   activePlayer = 0;
   roundScore = 0;
@@ -58,6 +62,7 @@ function roll() {
   } else {
     nextPlayer();
   }
+  document.querySelector(".input").disabled = true;
 }
 
 document.querySelector(".btn-roll").addEventListener("click", roll);
@@ -66,7 +71,7 @@ function hold() {
   scores[activePlayer] += roundScore; // Add Current score to GLOBAL score
   document.querySelector("#score-" + activePlayer).textContent =
     scores[activePlayer]; //Update the UI
-  if (scores[activePlayer] >= 20) {
+  if (scores[activePlayer] >= maxscore) {
     // Check if player won the game
     document.querySelector("#name-" + activePlayer).textContent = "Winner!";
     document.querySelector(".dice").style.display = "none";
@@ -78,6 +83,7 @@ function hold() {
     document
       .querySelector(`.player-${activePlayer}-panel`)
       .classList.remove("active");
+    document.querySelector(".input").disabled = false;
   } else {
     nextPlayer();
   }
