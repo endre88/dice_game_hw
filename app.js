@@ -9,16 +9,18 @@ GAME RULES:
 
 */
 
-
 let scores, roundScore, activePlayer;
+let previousDices = [0, 0];
 
 function init() {
   scores = [0, 0];
+  previousDices = [0, 0]; // az előző dobás lenullázása new game-kor
   activePlayer = 0;
   roundScore = 0;
   document
     .querySelector(`.player-${activePlayer}-panel`)
     .classList.add("active");
+  document.querySelector(`.player-${1}-panel`).classList.remove("active"); // kijavítja azt a hibát, ha a player 2 dobásai közben a new game-re kattintáskor ott marad a játékosjelölő!
   document.querySelector(".player-0-panel").classList.remove("winner");
   document.querySelector(".player-1-panel").classList.remove("winner");
   document.querySelector(".dice").style.display = "none";
@@ -36,15 +38,25 @@ init();
 document.querySelector(".btn-new").addEventListener("click", init);
 
 function roll() {
-  const dice = Math.floor(Math.random() * 6) + 1; //1. random number
-  console.log("dobtunk a kockával ");
+  const dice = Math.floor(Math.random() * 6) + 1;
+  if (previousDices[activePlayer] === 6 && dice === 6) {
+    scores[activePlayer] = 0;
+    document.querySelector("#score-" + activePlayer).textContent = 0;
+    previousDices[activePlayer] = 0;
+    nextPlayer();
+    return;
+  } else {
+    previousDices[activePlayer] = dice;
+    console.log(previousDices);
+  }
   let diceDOM = document.querySelector(".dice"); // 2. display the result
-  diceDOM.style.display = "block"; // event loop miatt nem jelenik meg a dice5png 
+  diceDOM.style.display = "block"; // event loop miatt nem jelenik meg a dice5png
   diceDOM.src = `dice-${dice}.png`; //diceDOM.src = "dice-" + dice + ".png";
-  if (dice !== 1) {  // 3.Update the round score if the rolled number was NOT a 1
-    roundScore += dice; //Add score
+  if (dice !== 1) {
+    // 3.Update the round score if the rolled number was NOT a 1
+    roundScore += dice;
     document.querySelector("#current-" + activePlayer).textContent = roundScore;
-  } else { //Next player
+  } else {
     nextPlayer();
   }
 }
@@ -53,8 +65,10 @@ document.querySelector(".btn-roll").addEventListener("click", roll);
 
 function hold() {
   scores[activePlayer] += roundScore; // Add Current score to GLOBAL score
-  document.querySelector("#score-" + activePlayer).textContent =  scores[activePlayer]; //Update the UI
-  if (scores[activePlayer] >= 20) { // Check if player won the game
+  document.querySelector("#score-" + activePlayer).textContent =
+    scores[activePlayer]; //Update the UI
+  if (scores[activePlayer] >= 20) {
+    // Check if player won the game
     document.querySelector("#name-" + activePlayer).textContent = "Winner!";
     document.querySelector(".dice").style.display = "none";
     document.querySelector(".btn-roll").style.display = "none";
