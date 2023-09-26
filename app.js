@@ -19,6 +19,7 @@ function init() {
     .classList.add("active");
   document.querySelector(".player-0-panel").classList.remove("winner");
   document.querySelector(".player-1-panel").classList.remove("winner");
+  document.querySelector(`.player-${1}-panel`).classList.remove("active"); // kijavítja azt a hibát, ha a player 2 dobásai közben a new game-re kattintáskor ott marad a játékosjelölő!
   document.querySelector(".dice").style.display = "none";
   document.getElementById("score-0").textContent = "0";
   document.getElementById("score-1").textContent = "0";
