@@ -20,7 +20,8 @@ function init() {
   document.querySelector(".player-0-panel").classList.remove("winner");
   document.querySelector(".player-1-panel").classList.remove("winner");
   document.querySelector(`.player-${1}-panel`).classList.remove("active"); // kijavítja azt a hibát, ha a player 2 dobásai közben a new game-re kattintáskor ott marad a játékosjelölő!
-  document.querySelector(".dice").style.display = "none";
+  document.querySelector("#dice-1").style.display = "none";
+  document.querySelector("#dice-2").style.display = "none";
   document.getElementById("score-0").textContent = "0";
   document.getElementById("score-1").textContent = "0";
   document.getElementById("current-0").textContent = "0";
@@ -35,19 +36,22 @@ init();
 document.querySelector(".btn-new").addEventListener("click", init);
 function roll() {
   //1. random number
-  const dice = Math.floor(Math.random() * 6) + 1;
+  const dice_1 = Math.floor(Math.random() * 6) + 1;
+  const dice_2 = Math.floor(Math.random() * 6) + 1;
 
   console.log("dobtunk a kockával ");
   // 2. display the result
-  let diceDOM = document.querySelector(".dice");
-  diceDOM.style.display = "block"; // event loop miatt nem jelenik meg a dice5png
-  //diceDOM.src = "dice-" + dice + ".png";
-  diceDOM.src = `dice-${dice}.png`;
+  let diceDOM1 = document.querySelector("#dice-1");
+  diceDOM1.style.display = "block"; // event loop miatt nem jelenik meg a dice5png    //diceDOM.src = "dice-" + dice + ".png";
+  diceDOM1.src = `dice-${dice_1}.png`;
 
+  let diceDOM2 = document.querySelector("#dice-2");
+  diceDOM2.style.display = "block";
+  diceDOM2.src = `dice-${dice_2}.png`;
   // 3.Update the round score if the rolled number was NOT a 1
-  if (dice !== 1) {
+  if (dice_1 !== 1 || dice_2 !== 1) {
     //Add score
-    roundScore += dice;
+    roundScore += dice_1 + dice_2;
     document.querySelector("#current-" + activePlayer).textContent = roundScore;
   } else {
     //Next player
@@ -68,7 +72,8 @@ function hold() {
   // Check if player won the game
   if (scores[activePlayer] >= 20) {
     document.querySelector("#name-" + activePlayer).textContent = "Winner!";
-    document.querySelector(".dice").style.display = "none";
+    document.querySelector("#dice-1").style.display = "none";
+    document.querySelector("#dice-2").style.display = "none";
     document.querySelector(".btn-roll").style.display = "none";
     document.querySelector(".btn-hold").style.display = "none";
     document
@@ -91,5 +96,6 @@ function nextPlayer() {
   document.getElementById("current-1").textContent = "0";
   document.querySelector(".player-0-panel").classList.toggle("active");
   document.querySelector(".player-1-panel").classList.toggle("active");
-  document.querySelector(".dice").style.display = "none";
+  document.querySelector("#dice-1").style.display = "none";
+  document.querySelector("#dice-2").style.display = "none";
 }
